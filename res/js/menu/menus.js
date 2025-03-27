@@ -26,6 +26,58 @@ const menuDiamondsBorderColor = {
     false: "#4d3b0e",
 };
 
+// Cargar la imagen de fondo
+const menuBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imgSrc: "./res/img/bg-menu.webp", // Ruta de la nueva imagen de fondo
+});
+
+// Función para aplicar un desenfoque a una imagen
+function applyBlurToImage(image, blurAmount) {
+    const tempCanvas = document.createElement("canvas");
+    const tempCtx = tempCanvas.getContext("2d");
+
+    // Establecer las dimensiones del canvas temporal
+    tempCanvas.width = image.width;
+    tempCanvas.height = image.height;
+
+    // Dibujar la imagen en el canvas temporal
+    tempCtx.drawImage(image, 0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Aplicar el desenfoque usando el filtro de CSS (si está disponible)
+    if (tempCtx.filter) {
+        tempCtx.filter = `blur(${blurAmount}px)`;
+        tempCtx.drawImage(tempCanvas, 0, 0);
+    } else {
+        // Si el filtro no está disponible, aplicar un desenfoque manual (menos eficiente)
+        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const data = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+            // Aplicar un desenfoque básico (promedio de píxeles cercanos)
+            const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+            data[i] = avg;     // Red
+            data[i + 1] = avg; // Green
+            data[i + 2] = avg; // Blue
+        }
+
+        tempCtx.putImageData(imageData, 0, 0);
+    }
+
+    return tempCanvas;
+}
+
+// Variable para almacenar la imagen desenfocada
+let blurredBackground = null;
+
+// Cargar la imagen y aplicar el desenfoque
+menuBackground.image.onload = () => {
+    blurredBackground = applyBlurToImage(menuBackground.image, 5); // Ajusta el valor de blurAmount según sea necesario
+};
+
 const menusTexts = {
     lost: () => {
         ctx.font = "120px Cinzel";
@@ -92,63 +144,104 @@ function drawInGameMenu(name, transform) {
 }
 
 function drawMenu() {
-    ctx.fillStyle = "#5c4614";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Dibujar el fondo desenfocado
+    if (blurredBackground) {
+        ctx.drawImage(blurredBackground, 0, 0, canvas.width, canvas.height);
+    }
 
-    let fullText = "Fireboy";
-    ctx.font = "70px Cinzel";
+    // Resto del código para dibujar el texto, botones, diamantes, etc.
+    let fullText = "Shadow";
+    ctx.font = "75px Cinzel";
     ctx.lineWidth = 7;
     ctx.strokeStyle = "black";
-    ctx.strokeText(fullText, canvas.width * 0.23, canvas.height * 0.1);
 
-    ctx.fillStyle = "red";
-    ctx.fillText(fullText, canvas.width * 0.23, canvas.height * 0.1);
+    // Configura la sombra para "Shadow"
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "white";
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+
+    ctx.strokeText(fullText, canvas.width * 0.18, canvas.height * 0.08);
+    ctx.fillStyle = "black";
+    ctx.fillText(fullText, canvas.width * 0.18, canvas.height * 0.08);
+
+    // Restablece la sombra para "and"
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 
     fullText = "and";
-    ctx.font = "70px Cinzel";
-    ctx.lineWidth = 7;
+    ctx.font = "75px Cinzel";
     ctx.strokeStyle = "black";
-    ctx.strokeText(fullText, canvas.width * 0.44, canvas.height * 0.1);
+    ctx.strokeText(fullText, canvas.width * 0.42, canvas.height * 0.08);
+    ctx.fillStyle = "#cccccc";
+    ctx.fillText(fullText, canvas.width * 0.42, canvas.height * 0.08);
 
-    ctx.fillStyle = "yellow";
-    ctx.fillText(fullText, canvas.width * 0.44, canvas.height * 0.1);
-
-    fullText = "Watergirl";
-    ctx.font = "70px Cinzel";
-    ctx.lineWidth = 7;
+    // Dibuja "Spark" con sombra negra
+    fullText = "Spark";
+    ctx.font = "75px Cinzel";
     ctx.strokeStyle = "black";
-    ctx.strokeText(fullText, canvas.width * 0.56, canvas.height * 0.1);
 
-    ctx.fillStyle = "#2596be";
-    ctx.fillText(fullText, canvas.width * 0.56, canvas.height * 0.1);
+    // Configura la sombra para "Spark"
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "black";
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
 
+    ctx.strokeText(fullText, canvas.width * 0.62, canvas.height * 0.08);
+    ctx.fillStyle = "#ffd700";
+    ctx.fillText(fullText, canvas.width * 0.62, canvas.height * 0.08);
+
+    // Restablece la sombra para el resto del texto
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+
+    // Texto de creador
     fullText = "Created by:";
     ctx.font = "50px Cinzel";
-    ctx.lineWidth = 7;
     ctx.strokeStyle = "black";
-    ctx.strokeText(fullText, canvas.width * 0.01, canvas.height * 0.92);
-
+    ctx.strokeText(fullText, canvas.width * 0.01, canvas.height * 0.80);
     ctx.fillStyle = "yellow";
-    ctx.fillText(fullText, canvas.width * 0.01, canvas.height * 0.92);
+    ctx.fillText(fullText, canvas.width * 0.01, canvas.height * 0.80);
 
-    //buttons
+    // Nombres de los creadores
+    let creators = [
+        "Medirec",
+        "Hernández Hernández José Eleazar",
+        "Banda Rayo Diana Monserrat",
+        "Romo Mañon Rodrigo de Jesús"
+    ];
+
+    ctx.font = "30px Cinzel";
+    let startY = canvas.height * 0.85;
+
+    creators.forEach((name, index) => {
+        ctx.strokeText(name, canvas.width * 0.01, startY + index * 50);
+        ctx.fillText(name, canvas.width * 0.01, startY + index * 50);
+    });
+
+    // Botones
     for (const btnName in menuButtons.mainMenu) {
         menuButtons.mainMenu[btnName].draw();
     }
 
-    //paths
+    // Paths
     for (const key in menuLevelsPath) {
         const path = menuLevelsPath[key];
         drawFullPath(path);
     }
 
-    //diamonds
+    // Diamonds
     for (const key in menuLevels) {
         const diamond = menuLevels[key];
-
         diamond.drawFullDiamond();
     }
 }
+
+
 
 function drawFullPath(path) {
     const mainColor = menuDiamondsBorderColor[path.unlocked];

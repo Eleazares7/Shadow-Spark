@@ -108,7 +108,7 @@ export class Ball extends Sprite {
                         this.hitbox.position.y + this.hitbox.height > block.hitbox.height &&
                         this.hitbox.position.x < block.hitbox.position.x + block.hitbox.width &&
                         this.hitbox.position.x + this.hitbox.width >
-                            block.hitbox.position.x + block.hitbox.width &&
+                        block.hitbox.position.x + block.hitbox.width &&
                         this.velocity.x < 0
                     ) {
                         const offset = this.hitbox.position.x - this.position.x;
@@ -231,7 +231,7 @@ export class Ball extends Sprite {
                         block.direction.x == "left" &&
                         this.hitbox.position.x + this.hitbox.width > block.hitbox.position.x &&
                         this.hitbox.position.x + this.hitbox.width <=
-                            block.hitbox.position.x + block.hitbox.width
+                        block.hitbox.position.x + block.hitbox.width
                     ) {
                         let xPos = this.calculateXPos(block);
                         this.triangleChangePosition(block, xPos);
@@ -256,7 +256,7 @@ export class Ball extends Sprite {
                         block.direction.x == "left" &&
                         this.hitbox.position.x + this.hitbox.width >= block.hitbox.position.x &&
                         this.hitbox.position.x + this.hitbox.width <=
-                            block.hitbox.position.x + block.hitbox.width &&
+                        block.hitbox.position.x + block.hitbox.width &&
                         this.hitbox.position.y > block.hitbox.position.y
                     ) {
                         let xPos = this.calculateXPos(block);
