@@ -1,3 +1,13 @@
+Aquí tienes el README actualizado con la sección "¡Juega Ahora!" como lo primero y con un texto más grande simulado en Markdown (usando encabezados para agrandar el texto). He reorganizado el contenido para que el enlace al juego sea lo primero y más destacado:
+
+---
+
+# 🎉 **¡Juega Ahora!**
+### Haz clic en el botón para disfrutar de **Shadow & Spark** en línea:  
+**[➡️ JUGAR SHADOW & SPARK ⬅️](http://shadowspark.infinityfreeapp.com)**
+
+---
+
 # Shadow & Spark
 
 ¡Bienvenido a **Shadow & Spark**! Un emocionante juego multijugador cooperativo inspirado en *FireBoy and WaterGirl*, desarrollado para la web con **HTML**, **CSS** y **JavaScript**.
