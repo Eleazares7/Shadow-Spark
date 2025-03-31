@@ -233,26 +233,6 @@ let menuButtons = {
             },
         }),
     },
-    mainMenu: {
-        unlock: unlockAllDiamondsButton,
-        reset: new MenuButton({
-            position: {
-                x: canvas.width - 430,
-                y: canvas.height * 0.78,
-            },
-            width: 430,
-            height: canvas.height * 0.065,
-            yOffset: canvas.height * 0.43,
-            text: "Reset Progress",
-            mainColor: "rgba(92, 70, 20, 0.5)", // Fondo transparente
-            borderColor: "rgba(92, 70, 20, 0.8)", // Borde semi-transparente
-            outerColor: "rgba(92, 70, 20, 0.5)", // Fondo transparente
-            fontSize: 50,
-            runCode: () => {
-                resetProgress();
-            },
-        }),
-    },
 };
 
 export { pauseButton, menuButtons, checkButtonCollision, unlockAllDiamondsButton };

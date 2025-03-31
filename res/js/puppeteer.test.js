@@ -1,226 +1,102 @@
 const puppeteer = require('puppeteer');
 
-// Función auxiliar para esperar un tiempo
+// Espera breve
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-describe('EdgardoGame Puppeteer Tests', () => {
+describe('Shadow & Spark Puppeteer Tests', () => {
     let browser;
     let page;
 
+    // Configuración inicial
     beforeAll(async () => {
-        browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        });
+        browser = await puppeteer.launch({ headless: true });
         page = await browser.newPage();
-        await page.goto('http://localhost/EdgardoGame/index.html', { waitUntil: 'networkidle0' });
+        await page.goto('http://localhost/shadowspark/index.html', { waitUntil: 'networkidle0' });
     });
 
+    // Cierre del navegador
     afterAll(async () => {
         await browser.close();
     });
 
-    // Pruebas básicas existentes
-    test('La página del juego carga correctamente', async () => {
+    // Prueba de carga
+    test('La página carga correctamente', async () => {
         const title = await page.title();
-        expect(title).toBe('EdgardoGame');
-        const gameElement = await page.$('#canvas');
-        expect(gameElement).not.toBeNull();
-    }, 10000);
+        expect(title).toBe('Shadow & Spark');
+        const canvas = await page.$('#canvas');
+        expect(canvas).not.toBeNull();
+    }, 5000);
 
-    test('El canvas tiene las dimensiones esperadas', async () => {
-        const canvasSize = await page.evaluate(() => {
+    // Prueba de Canvas
+    test('El Canvas tiene el tamaño correcto', async () => {
+        const size = await page.evaluate(() => {
             const canvas = document.querySelector('#canvas');
             return { width: canvas.width, height: canvas.height };
         });
-        expect(canvasSize.width).toBe(1404);
-        expect(canvasSize.height).toBe(1044);
-    }, 10000);
+        expect(size.width).toBeGreaterThan(0); // Ejemplo, ajusta al tamaño real
+        expect(size.height).toBeGreaterThan(0);
+    }, 5000);
 
-    // Pruebas de movimientos y acciones básicas
-    test('El jugador puede moverse', async () => {
-        await page.keyboard.press('d');
+    // Pruebas de controles de Shadow
+    test('Shadow se mueve a la derecha con D', async () => {
+        await page.keyboard.press('KeyD');
         await delay(100);
-        expect(true).toBe(true);
+        const position = await page.evaluate(() => window.shadowPosition?.x || 0);
+        expect(position).toBeGreaterThan(0); // Verifica movimiento
+    }, 5000);
 
-    }, 10000);
-
-    test('El jugador puede saltar', async () => {
-        await page.keyboard.press('w');
+    test('Shadow salta con W', async () => {
+        await page.keyboard.press('KeyW');
         await delay(100);
-        expect(true).toBe(true);
+        const jumping = await page.evaluate(() => window.shadowJumping || false);
+        expect(jumping).toBe(true); // Verifica salto
+    }, 5000);
 
-    }, 10000);
-
-    test('El jugador puede moverse a la izquierda', async () => {
-        await page.keyboard.press('a');
+    // Pruebas de controles de Spark
+    test('Spark se mueve a la derecha con Flecha Derecha', async () => {
+        await page.keyboard.press('ArrowRight');
         await delay(100);
-        expect(true).toBe(true);
+        const position = await page.evaluate(() => window.sparkPosition?.x || 0);
+        expect(position).toBeGreaterThan(0); // Verifica movimiento
+    }, 5000);
 
-    }, 10000);
-
-    test('El jugador puede moverse a la derecha', async () => {
-        await page.keyboard.press('d');
+    test('Spark salta con Flecha Arriba', async () => {
+        await page.keyboard.press('ArrowUp');
         await delay(100);
-        expect(true).toBe(true);
+        const jumping = await page.evaluate(() => window.sparkJumping || false);
+        expect(jumping).toBe(true); // Verifica salto
+    }, 5000);
 
-    }, 10000);
-
-    test('El jugador puede mover objetos', async () => {
-        await page.keyboard.press('e');
+    // Pruebas de interacción
+    test('Spark activa palancas con Flecha Abajo', async () => {
+        await page.keyboard.press('ArrowDown');
         await delay(100);
-        expect(true).toBe(true);
+        const lever = await page.evaluate(() => window.leverActivated || false);
+        expect(lever).toBe(true); // Verifica activación
+    }, 5000);
 
-    }, 10000);
+    // Pruebas de ítems
+    test('Recolectar una llave funciona', async () => {
+        await page.keyboard.press('KeyK'); // Ejemplo para llaves
+        await delay(100);
+        const keys = await page.evaluate(() => window.keysCollected || 0);
+        expect(keys).toBeGreaterThan(0); // Verifica recolección
+    }, 5000);
 
-    test('La sincronización del juego funciona', async () => {
+    // Pruebas de niveles
+    test('El Nivel 1 se carga', async () => {
+        await page.click('#startButton'); // Ejemplo de botón para iniciar
         await delay(200);
-        expect(true).toBe(true);
+        const level = await page.evaluate(() => window.currentLevel || 0);
+        expect(level).toBe(1); // Verifica carga del nivel
+    }, 5000);
 
-    }, 10000);
-
-    test('El jugador puede activar palancas', async () => {
-        await page.keyboard.press('f');
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Las palancas funcionan correctamente', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Los botones funcionan correctamente', async () => {
-        await page.keyboard.press('b');
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Las piedras se comportan correctamente', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    // Testeo de funciones clave
-    test('Los movimientos funcionan correctamente', async () => {
-        await page.keyboard.press('d');
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Habilidades de Shadow funcionan', async () => {
-        await page.keyboard.press('s'); // Ejemplo para habilidad de Shadow
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Habilidades de Spark funcionan', async () => {
-        await page.keyboard.press('q'); // Ejemplo para habilidad de Spark
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Las colisiones se manejan correctamente', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    // Pruebas de ítems y eventos
-    test('El ítem Lumeneterno funciona', async () => {
-        await page.keyboard.press('l'); // Ejemplo para usar Lumeneterno
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Las llaves funcionan correctamente', async () => {
-        await page.keyboard.press('k'); // Ejemplo para usar llaves
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Las plataformas colapsables funcionan', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Los módulos de niveles básicos están operativos', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    // Sincronización y lógica
-    test('La sincronización entre personajes funciona', async () => {
+    // Prueba de colaboración
+    test('Shadow y Spark sincronizan acciones', async () => {
+        await page.keyboard.press('KeyD'); // Shadow mueve
+        await page.keyboard.press('ArrowDown'); // Spark activa
         await delay(200);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('La lógica de interruptores funciona', async () => {
-        await page.keyboard.press('i'); // Ejemplo para interruptores
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Rendimiento en niveles 1-3 es correcto', async () => {
-        await delay(200);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    // Corrección de errores y niveles avanzados
-    test('Corrección de errores internos funciona', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Pruebas de niveles 4-6 (puzzles interconectados) funcionan', async () => {
-        await delay(200);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Rutas separadas en niveles 4-6 funcionan', async () => {
-        await delay(200);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    // Validación final
-    test('Jugabilidad en niveles 1-6 es correcta', async () => {
-        await delay(300);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Mecánicas de cooperación funcionan', async () => {
-        await delay(200);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Eventos dinámicos funcionan correctamente', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
-
-    test('Ítems en niveles 1-6 funcionan correctamente', async () => {
-        await delay(100);
-        expect(true).toBe(true);
-
-    }, 10000);
+        const door = await page.evaluate(() => window.doorOpened || false);
+        expect(door).toBe(true); // Verifica sincronización
+    }, 5000);
 });

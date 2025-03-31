@@ -308,7 +308,7 @@ setMenuLevels({
     1: new MenuLevel({
         position: {
             x: menuLevelX,
-            y: canvas.height * 0.9,
+            y: canvas.height * 0.5,
         },
         questsStatus: 0,
         unlocked: true,
@@ -316,122 +316,68 @@ setMenuLevels({
         levelsUnlocking: [2],
         quests: [quests.levelCompleted, quests.allDiamonds],
     }),
-    2: new MenuLevel({
-        position: {
-            x: menuLevelX,
-            y: canvas.height * 0.75,
-        },
-        questsStatus: 0,
-        unlocked: false,
-        pathUnlocking: [2],
-        levelsUnlocking: [3],
-        quests: [quests.levelCompleted, quests.allDiamonds],
-    }),
-    3: new MenuLevel({
-        position: {
-            x: menuLevelX,
-            y: canvas.height * 0.6,
-        },
-        questsStatus: 0,
-        unlocked: false,
-        pathUnlocking: [3],
-        levelsUnlocking: [4],
-        quests: [quests.levelCompleted, quests.allDiamonds],
-    }),
-    4: new MenuLevel({
-        position: {
-            x: menuLevelX,
-            y: canvas.height * 0.45,
-        },
-        questsStatus: 0,
-        unlocked: false,
-        pathUnlocking: [4],
-        levelsUnlocking: [5],
-        quests: [quests.levelCompleted, quests.allDiamonds],
-    }),
-    5: new MenuLevel({
-        position: {
-            x: menuLevelX,
-            y: canvas.height * 0.3,
-        },
-        questsStatus: 0,
-        unlocked: false,
-        pathUnlocking: [5],
-        levelsUnlocking: [6],
-        quests: [quests.levelCompleted, quests.allDiamonds],
-    }),
-    6: new MenuLevel({
-        position: {
-            x: menuLevelX,
-            y: canvas.height * 0.15,
-        },
-        questsStatus: 0,
-        unlocked: false,
-        pathUnlocking: [],
-        levelsUnlocking: [],
-        quests: [quests.finalDiamond],
-    }),
+    
 });
 
 let menuLevelPathX = 691;
 
-setMenuLevelsPath({
-    1: {
-        position: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.9,
-        },
-        finalPosition: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.81,
-        },
-        unlocked: false,
-    },
-    2: {
-        position: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.75,
-        },
-        finalPosition: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.66,
-        },
-        unlocked: false,
-    },
-    3: {
-        position: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.6,
-        },
-        finalPosition: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.51,
-        },
-        unlocked: false,
-    },
-    4: {
-        position: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.45,
-        },
-        finalPosition: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.36,
-        },
-        unlocked: false,
-    },
-    5: {
-        position: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.3,
-        },
-        finalPosition: {
-            x: menuLevelPathX,
-            y: canvas.height * 0.21,
-        },
-        unlocked: false,
-    },
-});
+// setMenuLevelsPath({
+//     1: {
+//         position: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.9,
+//         },
+//         finalPosition: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.81,
+//         },
+//         unlocked: false,
+//     },
+//     2: {
+//         position: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.75,
+//         },
+//         finalPosition: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.66,
+//         },
+//         unlocked: false,
+//     },
+//     3: {
+//         position: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.6,
+//         },
+//         finalPosition: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.51,
+//         },
+//         unlocked: false,
+//     },
+//     4: {
+//         position: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.45,
+//         },
+//         finalPosition: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.36,
+//         },
+//         unlocked: false,
+//     },
+//     5: {
+//         position: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.3,
+//         },
+//         finalPosition: {
+//             x: menuLevelPathX,
+//             y: canvas.height * 0.21,
+//         },
+//         unlocked: false,
+//     },
+// });
 
 export {
     drawMenu,
