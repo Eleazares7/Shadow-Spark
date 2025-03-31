@@ -32,9 +32,9 @@ class MenuButton {
         yOffset,
         text,
         runCode,
-        outerColor = "#929292",
+        outerColor = "rgba(146, 146, 146, 0.5)", // Fondo transparente
         borderColor = "black",
-        mainColor = "#848484",
+        mainColor = "rgba(132, 132, 132, 0.5)", // Fondo transparente
         fontSize = 75,
     }) {
         this.position = position;
@@ -64,12 +64,18 @@ class MenuButton {
 
         this.textGap = TEXT_GAP[this.text.length];
     }
+
     draw() {
-        ctx.fillStyle = this.borderColor;
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        // Dibujar el fondo transparente
         ctx.fillStyle = this.mainColor;
         ctx.fillRect(this.position.x + 2, this.position.y + 2, this.width - 4, this.height - 4);
 
+        // Dibujar el borde
+        ctx.strokeStyle = this.borderColor;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
+
+        // Dibujar el texto
         ctx.font = `${this.fontSize}px Cinzel`;
         ctx.lineWidth = 7;
         ctx.strokeStyle = "black";
@@ -79,6 +85,7 @@ class MenuButton {
         ctx.fillStyle = "yellow";
         ctx.fillText(this.text, this.position.x + this.textGap, this.position.y + this.fontSize);
     }
+
     scaleDown() {
         ctx.fillStyle = this.outerColor;
         ctx.fillRect(this.position.x - 1, this.position.y - 1, this.width + 2, this.height + 2);
@@ -88,6 +95,7 @@ class MenuButton {
         this.height -= 2;
         this.fontSize -= 1;
     }
+
     resetSize() {
         this.position.x = this.originalValues.position.x;
         this.position.y = this.originalValues.position.y;
@@ -95,9 +103,11 @@ class MenuButton {
         this.height = this.originalValues.height;
         this.fontSize = this.originalValues.fontSize;
     }
+
     run() {
         this.runCode();
     }
+
     updatePositionY(pos) {
         this.position.y = pos + this.yOffset;
     }
@@ -120,9 +130,9 @@ const unlockAllDiamondsButton = new MenuButton({
     height: canvas.height * 0.1,
     yOffset: canvas.height * 0.43,
     text: "Unlock all",
-    mainColor: "#5c4614",
-    borderColor: "#5c4614",
-    outerColor: "#5c4614",
+    mainColor: "rgba(92, 70, 20, 0.5)", // Fondo transparente
+    borderColor: "rgba(92, 70, 20, 0.8)", // Borde semi-transparente
+    outerColor: "rgba(92, 70, 20, 0.5)", // Fondo transparente
     runCode: () => {
         unlockAllDiamonds();
         delete menuButtons.mainMenu.unlock;
@@ -223,43 +233,7 @@ let menuButtons = {
             },
         }),
     },
-    mainMenu: {
-        unlock: unlockAllDiamondsButton,
-        reset: new MenuButton({
-            position: {
-                x: canvas.width - 430,
-                y: canvas.height * 0.78,
-            },
-            width: 430,
-            height: canvas.height * 0.065,
-            yOffset: canvas.height * 0.43,
-            text: "Reset Progress",
-            mainColor: "#5c4614",
-            borderColor: "#5c4614",
-            outerColor: "#5c4614",
-            fontSize: 50,
-            runCode: () => {
-                resetProgress();
-            },
-        }),
-        author: new MenuButton({
-            position: {
-                x: canvas.width * 0.06,
-                y: canvas.height * 0.93,
-            },
-            width: 340,
-            height: canvas.height * 0.06,
-            yOffset: canvas.height * 0.43,
-            text: "Pavel Skála",
-            mainColor: "#5c4614",
-            borderColor: "#5c4614",
-            outerColor: "#5c4614",
-            fontSize: 50,
-            runCode: () => {
-                window.open("https://github.com/pavel-skala", "_blank");
-            },
-        }),
-    },
+
 };
 
 export { pauseButton, menuButtons, checkButtonCollision, unlockAllDiamondsButton };
