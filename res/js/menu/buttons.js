@@ -233,7 +233,6 @@ let menuButtons = {
             },
         }),
     },
-
 };
 
 export { pauseButton, menuButtons, checkButtonCollision, unlockAllDiamondsButton };
